@@ -17,6 +17,11 @@ public class EmployeeService {
 	private EmployeeRepository employeeRepository;
 
 	public Employee addEmployee(Employee employee) {
+		Employee employeeExists = employeeRepository.findByEmail(employee.getEmail());
+		
+		if (employeeExists != null && !employeeExists.equals(employee)) {
+			throw new RuntimeException("Employee Already Exists With That Email Adress");
+		}
 		employee.setEmployeCode(UUID.randomUUID().toString());
 		return employeeRepository.save(employee);
 	}
