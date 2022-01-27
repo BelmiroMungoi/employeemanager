@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Employee implements Serializable {
@@ -17,9 +20,24 @@ public class Employee implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank
+	@Size(min = 3, max = 70)
+	@Column(nullable = false)
 	private String name;
+	
+	@NotBlank
+	@Email
+	@Column(nullable = false)
 	private String email;
+	
+	@NotBlank
+	@Size(min = 2, max = 50)
+	@Column(nullable = false)
 	private String jobTitle;
+	
+	@NotBlank
+	@Size(min = 9, max = 10)
+	@Column(nullable = false)
 	private String phone;
 	private String image;
 	
