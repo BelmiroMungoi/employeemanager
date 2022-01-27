@@ -2,6 +2,8 @@ package com.bbm.employeemanager.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +31,7 @@ public class EmployeeController {
 	private EmployeeRepository employeeRepository;
 
 	@PostMapping(value = "/")
-	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
 		Employee saveEmployee = employeeService.addEmployee(employee);
 		return new ResponseEntity<Employee>(saveEmployee, HttpStatus.CREATED);
 	}
@@ -46,7 +48,7 @@ public class EmployeeController {
 	}
 
 	@PutMapping(value = "/")
-	public ResponseEntity<?> updateEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<?> updateEmployee(@Valid @RequestBody Employee employee) {
 
 		if (employee.getId() == null) {
 			return new ResponseEntity<String>("Employee Not Found", HttpStatus.NOT_FOUND);
@@ -59,7 +61,7 @@ public class EmployeeController {
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long id) {
 		
-		if (employeeRepository.existsById(id)) {
+		if (!employeeRepository.existsById(id)) {
 			return new ResponseEntity<String>("Employee Not Found Or Was Already Deleted", HttpStatus.NOT_FOUND);
 		}
 		
